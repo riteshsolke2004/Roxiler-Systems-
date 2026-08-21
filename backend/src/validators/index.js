@@ -72,13 +72,18 @@ const createStoreSchema = z.object({
   ownerId: z.string({ required_error: 'Store Owner ID is required' }).uuid({ message: 'Invalid Store Owner ID' }),
 });
 
-// Submit/Update Rating Schema
+// Submit/Update Rating Schema with Optional Feedback
 const ratingSchema = z.object({
   rating: z
     .number({ required_error: 'Rating is required' })
     .int({ message: 'Rating must be an integer' })
     .min(1, { message: 'Rating must be at least 1' })
     .max(5, { message: 'Rating must not exceed 5' }),
+  feedback: z
+    .string()
+    .max(500, { message: 'Feedback must not exceed 500 characters' })
+    .optional()
+    .nullable(),
 });
 
 module.exports = {

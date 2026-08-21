@@ -1,7 +1,7 @@
 const prisma = require('../config/db');
 
 class RatingService {
-  async submitOrUpdateRating(userId, storeId, ratingValue) {
+  async submitOrUpdateRating(userId, storeId, ratingValue, feedbackText = null) {
     // 1. Verify store exists
     const store = await prisma.store.findUnique({
       where: { id: storeId },
@@ -13,7 +13,7 @@ class RatingService {
       throw error;
     }
 
-    // 2. Upsert rating record enforcing single rating per store per user
+    // 2. Upsert rating record enforcing single rating per store per user with optional feedback
     const ratingRecord = await prisma.rating.upsert({
       where: {
         userId_storeId: {
@@ -23,11 +23,13 @@ class RatingService {
       },
       update: {
         rating: ratingValue,
+        feedback: feedbackText !== undefined ? feedbackText : undefined,
       },
       create: {
         userId,
         storeId,
         rating: ratingValue,
+        feedback: feedbackText || null,
       },
     });
 

@@ -4,7 +4,7 @@ import api from '../../api/axios';
 import StarDisplay from '../../components/StarDisplay';
 import Loader from '../../components/Loader';
 import AlertMessage from '../../components/AlertMessage';
-import { Store, Star, Users, MapPin, Mail, ArrowRight, TrendingUp, MessageSquare } from 'lucide-react';
+import { Store, Star, Users, MapPin, Mail, ArrowRight, MessageSquare, Quote } from 'lucide-react';
 
 const StoreOwnerDashboard = () => {
   const [dashboard, setDashboard] = useState(null);
@@ -193,17 +193,17 @@ const StoreOwnerDashboard = () => {
             </div>
           </div>
 
-          {/* Recent Reviews */}
+          {/* Recent Reviews with Customer Feedback */}
           <div className="card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                 <MessageSquare size={18} color="var(--primary)" />
                 <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                  Recent Customer Reviews
+                  Recent Customer Reviews & Feedback
                 </h3>
               </div>
               <Link to="/owner/ratings" className="btn btn-outline btn-sm" style={{ gap: '0.4rem' }}>
-                <span>View All</span>
+                <span>View All Reviews</span>
                 <ArrowRight size={14} />
               </Link>
             </div>
@@ -216,25 +216,47 @@ const StoreOwnerDashboard = () => {
                 <p style={{ fontSize: '0.875rem' }}>No customer ratings yet.</p>
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {dashboard.ratings.slice(0, 4).map((item) => (
-                  <div key={item.ratingId} className="review-item">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                      <div className="avatar">
-                        {item.userName.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase()}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                {dashboard.ratings.slice(0, 5).map((item) => (
+                  <div key={item.ratingId} className="review-item" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '0.6rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <div className="avatar">
+                          {item.userName.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase()}
+                        </div>
+                        <div>
+                          <h4 style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                            {item.userName}
+                          </h4>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                            {new Date(item.ratingDate).toLocaleDateString('en-US', {
+                              month: 'short', day: 'numeric', year: 'numeric'
+                            })}
+                          </span>
+                        </div>
                       </div>
-                      <div>
-                        <h4 style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                          {item.userName}
-                        </h4>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                          {new Date(item.ratingDate).toLocaleDateString('en-US', {
-                            month: 'short', day: 'numeric', year: 'numeric'
-                          })}
-                        </span>
-                      </div>
+                      <StarDisplay rating={item.rating} size={16} />
                     </div>
-                    <StarDisplay rating={item.rating} size={16} />
+
+                    {/* Customer Feedback Message */}
+                    {item.feedback ? (
+                      <div style={{
+                        width: '100%',
+                        padding: '0.6rem 0.85rem',
+                        background: 'var(--bg-card-hover)',
+                        borderLeft: '3px solid var(--primary)',
+                        borderRadius: '0 var(--radius-sm) var(--radius-sm) 0',
+                        fontSize: '0.825rem',
+                        color: 'var(--text-secondary)',
+                        lineHeight: 1.5,
+                      }}>
+                        "{item.feedback}"
+                      </div>
+                    ) : (
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-disabled)', fontStyle: 'italic' }}>
+                        No written feedback provided with this rating.
+                      </span>
+                    )}
                   </div>
                 ))}
               </div>

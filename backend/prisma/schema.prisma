@@ -50,6 +50,7 @@ model Store {
 model Rating {
   id        String   @id @default(uuid())
   rating    Int
+  feedback  String?
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   storeId   String

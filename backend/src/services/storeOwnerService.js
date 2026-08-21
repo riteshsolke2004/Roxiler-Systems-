@@ -34,6 +34,7 @@ class StoreOwnerService {
     const ratingList = store.ratings.map((r) => ({
       ratingId: r.id,
       rating: r.rating,
+      feedback: r.feedback || null,
       ratingDate: r.createdAt,
       userName: r.user.name,
       userEmail: r.user.email,

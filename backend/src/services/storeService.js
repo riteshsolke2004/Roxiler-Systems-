@@ -29,12 +29,14 @@ class StoreService {
       const sumRatings = store.ratings.reduce((sum, r) => sum + r.rating, 0);
       const averageRating = totalRatings > 0 ? Number((sumRatings / totalRatings).toFixed(2)) : 0;
 
-      // Find current user's rating if userId is provided
+      // Find current user's rating and feedback if userId is provided
       let userRating = null;
+      let userFeedback = null;
       if (userId) {
         const found = store.ratings.find((r) => r.userId === userId);
         if (found) {
           userRating = found.rating;
+          userFeedback = found.feedback || null;
         }
       }
 
@@ -44,6 +46,7 @@ class StoreService {
         averageRating,
         totalRatings,
         userRating,
+        userFeedback,
       };
     });
 
@@ -92,10 +95,12 @@ class StoreService {
     const averageRating = totalRatings > 0 ? Number((sumRatings / totalRatings).toFixed(2)) : 0;
 
     let userRating = null;
+    let userFeedback = null;
     if (userId) {
       const found = store.ratings.find((r) => r.userId === userId);
       if (found) {
         userRating = found.rating;
+        userFeedback = found.feedback || null;
       }
     }
 
@@ -105,6 +110,7 @@ class StoreService {
       averageRating,
       totalRatings,
       userRating,
+      userFeedback,
     };
   }
 }

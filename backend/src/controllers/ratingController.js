@@ -5,9 +5,9 @@ class RatingController {
   async submitRating(req, res, next) {
     try {
       const { storeId } = req.params;
-      const { rating } = req.body;
+      const { rating, feedback } = req.body;
       const userId = req.user.id;
-      const result = await ratingService.submitOrUpdateRating(userId, storeId, rating);
+      const result = await ratingService.submitOrUpdateRating(userId, storeId, rating, feedback);
       return sendSuccess(res, 201, 'Rating submitted successfully', result);
     } catch (error) {
       next(error);
@@ -17,9 +17,9 @@ class RatingController {
   async updateRating(req, res, next) {
     try {
       const { storeId } = req.params;
-      const { rating } = req.body;
+      const { rating, feedback } = req.body;
       const userId = req.user.id;
-      const result = await ratingService.submitOrUpdateRating(userId, storeId, rating);
+      const result = await ratingService.submitOrUpdateRating(userId, storeId, rating, feedback);
       return sendSuccess(res, 200, 'Rating updated successfully', result);
     } catch (error) {
       next(error);

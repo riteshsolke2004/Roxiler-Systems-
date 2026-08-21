@@ -4,6 +4,7 @@ import SortableTable from '../../components/SortableTable';
 import StarDisplay from '../../components/StarDisplay';
 import Loader from '../../components/Loader';
 import AlertMessage from '../../components/AlertMessage';
+import { MessageSquare } from 'lucide-react';
 
 const StoreRatings = () => {
   const [ratings, setRatings] = useState([]);
@@ -49,8 +50,8 @@ const StoreRatings = () => {
       valA = new Date(a.ratingDate).getTime();
       valB = new Date(b.ratingDate).getTime();
     } else if (typeof valA === 'string') {
-      valA = valA.toLowerCase();
-      valB = valB.toLowerCase();
+      valA = (valA || '').toLowerCase();
+      valB = (valB || '').toLowerCase();
     }
 
     if (valA < valB) return order === 'asc' ? -1 : 1;
@@ -69,10 +70,34 @@ const StoreRatings = () => {
       render: (r) => <StarDisplay rating={r.rating} size={16} />,
     },
     {
+      header: 'Customer Feedback',
+      field: 'feedback',
+      sortable: false,
+      render: (r) =>
+        r.feedback ? (
+          <div style={{
+            fontSize: '0.825rem',
+            color: 'var(--text-primary)',
+            fontStyle: 'italic',
+            maxWidth: '280px',
+            lineHeight: 1.4,
+          }}>
+            "{r.feedback}"
+          </div>
+        ) : (
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-disabled)', fontStyle: 'italic' }}>
+            No comment
+          </span>
+        ),
+    },
+    {
       header: 'Submission Date',
       field: 'ratingDate',
       sortable: true,
-      render: (r) => new Date(r.ratingDate).toLocaleDateString() + ' ' + new Date(r.ratingDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      render: (r) =>
+        new Date(r.ratingDate).toLocaleDateString() +
+        ' ' +
+        new Date(r.ratingDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
   ];
 
@@ -80,8 +105,8 @@ const StoreRatings = () => {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Customer Ratings</h1>
-          <p className="page-subtitle">Complete list of registered users who rated your store</p>
+          <h1 className="page-title">Customer Ratings & Feedback</h1>
+          <p className="page-subtitle">Complete breakdown of registered users and reviews for your store</p>
         </div>
       </div>
 

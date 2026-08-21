@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth, getDashboardPath } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -19,10 +19,19 @@ import {
 const LandingPage = () => {
   const { user, isAuthenticated } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 30);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-base)' }}>
-      {/* 1. Header / Navbar */}
+      {/* 1. Dynamic Resizing Header / Navbar */}
       <header
         style={{
           position: 'sticky',
@@ -32,34 +41,38 @@ const LandingPage = () => {
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           borderBottom: '1px solid var(--border)',
-          padding: '0.85rem 2rem',
+          padding: scrolled ? '0.5rem 1.75rem' : '0.95rem 2.25rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          boxShadow: scrolled ? 'var(--shadow-md)' : 'none',
+          transition: 'padding 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, background 0.3s ease',
         }}
       >
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', textDecoration: 'none' }}>
           <div
             style={{
-              width: '38px',
-              height: '38px',
+              width: scrolled ? '32px' : '38px',
+              height: scrolled ? '32px' : '38px',
               background: 'var(--grad-primary)',
               borderRadius: '10px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               boxShadow: '0 4px 14px var(--primary-glow)',
+              transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
             }}
           >
-            <Store size={20} color="#fff" />
+            <Store size={scrolled ? 17 : 20} color="#fff" />
           </div>
           <span
             style={{
               fontFamily: 'var(--font-display)',
-              fontSize: '1.25rem',
+              fontSize: scrolled ? '1.1rem' : '1.25rem',
               fontWeight: 800,
               color: 'var(--text-primary)',
               letterSpacing: '-0.02em',
+              transition: 'font-size 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
             }}
           >
             StoreRating<span style={{
@@ -85,21 +98,47 @@ const LandingPage = () => {
             className="theme-toggle-btn"
             title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
             aria-label="Toggle Theme"
+            style={{
+              width: scrolled ? '32px' : '36px',
+              height: scrolled ? '32px' : '36px',
+              transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
+            }}
           >
-            {theme === 'dark' ? <Sun size={17} color="var(--gold)" /> : <Moon size={17} color="var(--primary)" />}
+            {theme === 'dark' ? <Sun size={scrolled ? 15 : 17} color="var(--gold)" /> : <Moon size={scrolled ? 15 : 17} color="var(--primary)" />}
           </button>
 
           {isAuthenticated && user ? (
-            <Link to={getDashboardPath(user.role)} className="btn btn-primary btn-sm">
+            <Link
+              to={getDashboardPath(user.role)}
+              className="btn btn-primary btn-sm"
+              style={{
+                padding: scrolled ? '0.35rem 0.85rem' : '0.45rem 1rem',
+                transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
+              }}
+            >
               <span>Go to Dashboard</span>
               <ArrowRight size={15} />
             </Link>
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-              <Link to="/login" className="btn btn-secondary btn-sm">
+              <Link
+                to="/login"
+                className="btn btn-secondary btn-sm"
+                style={{
+                  padding: scrolled ? '0.35rem 0.85rem' : '0.45rem 1rem',
+                  transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
+                }}
+              >
                 Sign In
               </Link>
-              <Link to="/register" className="btn btn-primary btn-sm">
+              <Link
+                to="/register"
+                className="btn btn-primary btn-sm"
+                style={{
+                  padding: scrolled ? '0.35rem 0.85rem' : '0.45rem 1rem',
+                  transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
+                }}
+              >
                 Register Free
               </Link>
             </div>

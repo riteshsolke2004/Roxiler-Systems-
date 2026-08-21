@@ -5,7 +5,7 @@ import RatingInput from '../../components/RatingInput';
 import Modal from '../../components/Modal';
 import Loader from '../../components/Loader';
 import AlertMessage from '../../components/AlertMessage';
-import { Search, Store, MapPin, Star, Edit3, PlusCircle, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
+import { Search, Store, MapPin, Star, Edit3, PlusCircle, SlidersHorizontal, ArrowUpDown, MessageSquare } from 'lucide-react';
 
 const UserDashboard = () => {
   const [stores, setStores] = useState([]);
@@ -19,6 +19,7 @@ const UserDashboard = () => {
 
   const [selectedStore, setSelectedStore] = useState(null);
   const [modalRating, setModalRating] = useState(0);
+  const [modalFeedback, setModalFeedback] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [modalError, setModalError] = useState('');
@@ -46,6 +47,7 @@ const UserDashboard = () => {
   const openRatingModal = (store) => {
     setSelectedStore(store);
     setModalRating(store.userRating || 5);
+    setModalFeedback(store.userFeedback || '');
     setModalError('');
     setIsModalOpen(true);
   };
@@ -60,7 +62,10 @@ const UserDashboard = () => {
     try {
       const endpoint = `/stores/${selectedStore.id}/ratings`;
       const method = selectedStore.userRating ? 'put' : 'post';
-      const res = await api[method](endpoint, { rating: modalRating });
+      const res = await api[method](endpoint, {
+        rating: modalRating,
+        feedback: modalFeedback.trim() || null,
+      });
       if (res.data.success) {
         setSuccess(`Rating ${selectedStore.userRating ? 'updated' : 'submitted'} for ${selectedStore.name}!`);
         setIsModalOpen(false);
@@ -217,7 +222,7 @@ const UserDashboard = () => {
         </>
       )}
 
-      {/* Rating Modal */}
+      {/* Rating Modal with Feedback */}
       {selectedStore && (
         <Modal
           isOpen={isModalOpen}
@@ -226,33 +231,53 @@ const UserDashboard = () => {
         >
           <AlertMessage type="error" message={modalError} />
 
-          <div style={{ textAlign: 'center', padding: '1rem 0' }}>
+          <div style={{ textAlign: 'center', padding: '0.5rem 0' }}>
             <div style={{
-              width: '64px', height: '64px', borderRadius: '16px',
+              width: '56px', height: '56px', borderRadius: '14px',
               background: 'hsla(43,96%,56%,0.15)',
               border: '1px solid hsla(43,96%,56%,0.3)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              margin: '0 auto 1rem',
+              margin: '0 auto 0.75rem',
             }}>
-              <Star size={28} color="var(--gold)" fill="var(--gold)" />
+              <Star size={26} color="var(--gold)" fill="var(--gold)" />
             </div>
-            <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1.25rem' }}>
               Select a star rating from 1 (Poor) to 5 (Excellent)
             </p>
-            <RatingInput value={modalRating} onChange={(val) => setModalRating(val)} size={40} />
+            <RatingInput value={modalRating} onChange={(val) => setModalRating(val)} size={38} />
             {modalRating > 0 && (
               <div style={{
-                marginTop: '1rem',
+                marginTop: '0.75rem',
                 fontSize: '0.875rem',
-                fontWeight: 600,
-                color: 'var(--text-secondary)',
+                fontWeight: 700,
+                color: 'var(--text-primary)',
               }}>
                 {['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'][modalRating]} — {modalRating}/5
               </div>
             )}
           </div>
 
-          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end', marginTop: '1.75rem' }}>
+          {/* Feedback textarea */}
+          <div className="form-group" style={{ marginTop: '1.25rem' }}>
+            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <MessageSquare size={14} color="var(--primary)" />
+              <span>Your Review / Feedback (Optional)</span>
+            </label>
+            <textarea
+              rows={3}
+              placeholder="Share your experience with this store for the owner to see..."
+              value={modalFeedback}
+              onChange={(e) => setModalFeedback(e.target.value)}
+              maxLength={500}
+              style={{ resize: 'vertical' }}
+            />
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span className="form-hint">Delivered directly to the store owner</span>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{modalFeedback.length}/500</span>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end', marginTop: '1.5rem' }}>
             <button className="btn btn-secondary btn-sm" onClick={() => setIsModalOpen(false)}>
               Cancel
             </button>
@@ -261,7 +286,7 @@ const UserDashboard = () => {
               disabled={submitting}
               onClick={handleRatingSubmit}
             >
-              {submitting ? 'Saving...' : 'Save Rating'}
+              {submitting ? 'Saving...' : 'Save Rating & Feedback'}
             </button>
           </div>
         </Modal>
@@ -328,6 +353,21 @@ const StoreCard = ({ store, onRate }) => (
       <StarDisplay rating={store.averageRating} totalRatings={store.totalRatings} size={18} />
     </div>
 
+    {/* User feedback preview if available */}
+    {store.userFeedback && (
+      <div style={{
+        padding: '0.65rem 0.85rem',
+        background: 'var(--bg-elevated)',
+        border: '1px dashed var(--border-strong)',
+        borderRadius: 'var(--radius-sm)',
+        fontSize: '0.78rem',
+        color: 'var(--text-secondary)',
+        fontStyle: 'italic',
+      }}>
+        "{store.userFeedback}"
+      </div>
+    )}
+
     {/* User rating status */}
     {!store.userRating && (
       <p style={{ fontSize: '0.8rem', color: 'var(--text-disabled)', fontStyle: 'italic' }}>
@@ -339,12 +379,12 @@ const StoreCard = ({ store, onRate }) => (
     <button
       onClick={() => onRate(store)}
       className={`btn ${store.userRating ? 'btn-secondary' : 'btn-primary'}`}
-      style={{ width: '100%' }}
+      style={{ width: '100%', marginTop: 'auto' }}
     >
       {store.userRating ? (
-        <><Edit3 size={15} /><span>Modify Rating</span></>
+        <><Edit3 size={15} /><span>Modify Rating & Feedback</span></>
       ) : (
-        <><PlusCircle size={15} /><span>Submit Rating</span></>
+        <><PlusCircle size={15} /><span>Submit Rating & Feedback</span></>
       )}
     </button>
   </div>
