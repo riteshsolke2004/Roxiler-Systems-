@@ -11,16 +11,16 @@ async function main() {
   await prisma.store.deleteMany();
   await prisma.user.deleteMany();
 
-  const hashedPassword = await bcrypt.hash('AdminPassword123!', 10);
-  const userPassword = await bcrypt.hash('UserPassword123!', 10);
-  const ownerPassword = await bcrypt.hash('OwnerPassword123!', 10);
+  const adminPassword = await bcrypt.hash('AdminPass123!', 10);
+  const userPassword = await bcrypt.hash('UserPass123!', 10);
+  const ownerPassword = await bcrypt.hash('OwnerPass123!', 10);
 
   // 1. Create System Admin
   const admin = await prisma.user.create({
     data: {
       name: 'System Administrator User Account',
       email: 'admin@storerating.com',
-      passwordHash: hashedPassword,
+      passwordHash: adminPassword,
       address: '100 System Admin Parkway, Technology Building 1, Suite 500, New York, NY 10001',
       role: 'SYSTEM_ADMIN',
     },
