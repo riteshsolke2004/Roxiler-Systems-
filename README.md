@@ -1,132 +1,106 @@
-# 🏪 Store Rating Platform
+# 🏪 StoreRatingHub — Multi-Role Store Rating & Analytics Platform
 
-A full-stack, production-quality web application built for managing stores and customer ratings with **Role-Based Access Control (RBAC)**, robust form validation, dynamic rating calculations, and a **premium dark-mode UI**.
-
----
-
-## 📸 Application Screenshots
-
-### 🔐 Login Page — Role-Based Sign In
-> Split-panel design with radio card role selection, animated hero section, and glassmorphic form
-
-![Login Page](screenshots/01_login_page.png)
+A full-stack, enterprise-grade web application built for managing stores and customer ratings with **Role-Based Access Control (RBAC)**, real-time dynamic rating calculations, customer feedback reviews, and a **modern light/dark theme system**.
 
 ---
 
-### 📊 Admin Dashboard — Platform Overview
-> Greeting banner, live stat cards (Total Users, Stores, Ratings), system status, and quick action grid
+## 🚀 Live Deployment Links
 
-![Admin Dashboard](screenshots/02_admin_dashboard.png)
-
----
-
-### 👥 User Management — Admin Panel
-> Filterable and sortable table of all registered users with role badges and detail view
-
-![User Management](screenshots/03_user_management.png)
-
----
-
-### 🏪 Store Management — Admin Panel
-> Sortable store listing with average star ratings, owner assignments, and filter controls
-
-![Store Management](screenshots/04_store_management.png)
-
----
-
-### 🛍️ User Dashboard — Browse & Rate Stores
-> Dark store cards split by Rated / Unrated sections with community rating stars
-
-![User Dashboard](screenshots/05_user_dashboard.png)
-
----
-
-### ⭐ Rating Modal — Submit / Update Store Rating
-> Interactive 1–5 star rating modal with quality label feedback (Poor → Excellent)
-
-![Rating Modal](screenshots/06_rating_modal.png)
-
----
-
-### 📈 Store Owner Dashboard — Performance Metrics
-> Rating hero banner with dynamic color score, stat cards, store info, and recent customer reviews
-
-![Store Owner Dashboard](screenshots/07_owner_dashboard.png)
-
----
-
-### 📋 Customer Ratings — Owner Review Breakdown
-> Complete sortable table of all customers who rated the owner's store
-
-![Customer Ratings](screenshots/08_customer_ratings.png)
+| Service | Live URL | Platform |
+|---|---|---|
+| 🌐 **Frontend Web App** | [https://roxiler-systems-khaki.vercel.app/](https://roxiler-systems-khaki.vercel.app/) | **Vercel** |
+| ⚡ **Backend REST API** | [https://storerating-backend.onrender.com/api](https://storerating-backend.onrender.com/api) | **Render** |
+| 🗄️ **1-Click DB Seeder** | [https://storerating-backend.onrender.com/api/seed](https://storerating-backend.onrender.com/api/seed) | **Render (Live API)** |
 
 ---
 
 ## 📌 Project Overview
 
-The **Store Rating Platform** enables users to register, log in, browse business stores, submit star ratings (1–5), update their ratings, and view overall statistics. The platform strictly enforces access control across three user roles:
+**StoreRatingHub** provides a complete end-to-end ecosystem connecting Customers, Store Owners, and System Administrators:
 
-1. **`SYSTEM_ADMIN`** — Full platform management: dashboard metrics (`totalUsers`, `totalStores`, `totalRatings`), user/store creation for any role, filterable & sortable user and store tables, individual user detail inspection.
-2. **`NORMAL_USER`** — Self-registration, searchable store browsing (by name/address), star rating submission/modification (1 rating per store enforced at DB level), password management.
-3. **`STORE_OWNER`** — Dedicated store performance dashboard with overall average rating, total ratings count, and complete customer review table. Strict data isolation enforced.
+1. **`SYSTEM_ADMIN` (Platform Administrator)**:
+   - Real-time overview metrics: Total Users, Total Stores, and Total Submitted Ratings.
+   - Create users for any system role (`SYSTEM_ADMIN`, `STORE_OWNER`, `NORMAL_USER`).
+   - Create business stores and assign dedicated Store Owners.
+   - Filterable, searchable, and sortable data tables for all platform users and stores.
+
+2. **`NORMAL_USER` (Customer & Reviewer)**:
+   - Self-registration with real-time validation checks.
+   - Browse and search all registered stores by name and address.
+   - Submit and modify 1-to-5 star ratings with **half-star precision** (e.g. 4.5, 3.5).
+   - Write custom **review feedback messages** (up to 500 characters) delivered directly to store owners.
+   - Manage personal account credentials and password.
+
+3. **`STORE_OWNER` (Business Representative)**:
+   - Dedicated business analytics dashboard with live calculated average rating scores.
+   - Total rating metrics and rating breakdown.
+   - Real-time stream of **Recent Customer Reviews & Feedback Quotes**.
+   - Sortable table of all customer ratings and written reviews for their store.
+   - Strict tenant data isolation.
 
 ---
 
-## ✨ Features
+## ✨ Key Features & Highlights
 
-- 🔐 **JWT Authentication & RBAC** — Centralized auth with bcrypt password hashing and role guards on both frontend and backend
-- 🛡️ **Strict Form Validation** — Name (20–60 chars), Email format, Password (8–16 chars, ≥1 uppercase, ≥1 special symbol), Address (max 400 chars)
-- 📊 **Dynamic Rating Calculation** — Average ratings computed via database aggregations (`_avg`, `_count`) — always fresh
-- 🔒 **DB-Level Unique Constraints** — `@@unique([userId, storeId])` prevents duplicate ratings at the database layer
-- 🔍 **Filtering & Column Sorting** — Admin tables support multi-field filtering and sortable columns (Name, Email, Address, Role, Rating)
-- 🎨 **Premium Dark-Mode UI** — Glassmorphism cards, vibrant gradient accents, micro-animations, gold star ratings with glow effects
+- 🔐 **JWT Authentication & RBAC** — Secure token-based auth with bcrypt password hashing and dual-layer guards (frontend route protection & backend API middleware).
+- 🌓 **Dynamic Light & Dark Theme** — Seamless theme toggle with CSS variable tokens and persisted preferences in `localStorage`.
+- 🔄 **Dynamic Resizing Sticky Navbar** — Header smoothly shrinks and elevates on scroll down, expanding back when returning to the top.
+- ⭐ **Accurate Half-Star Rating Display** — Decimal ratings (such as 4.5 or 3.5) accurately render full, half, and empty stars.
+- 💬 **Customer Review & Feedback System** — Customers can submit written feedback alongside star ratings, viewable in real-time by the respective store owner.
+- 📊 **Zero-Stale Dynamic Aggregations** — Average ratings and counts are computed on query via Prisma aggregations (`_avg`, `_count`).
+- 🔒 **Database-Level Integrity Constraints** — `@@unique([userId, storeId])` strictly prevents duplicate ratings at the PostgreSQL layer.
+- 🛡️ **Comprehensive Zod Validation** — Name (20–60 chars), Standard Email, Password (8–16 chars with uppercase & special character), Address (max 400 chars).
+- 🌱 **1-Click Cloud Database Seeder** — Built-in `/api/seed` endpoint allows populating the database on Render without requiring SSH shell access.
 
 ---
 
 ## 🛠️ Technology Stack
 
-| Layer | Technology |
+| Layer | Technologies |
 |---|---|
-| **Frontend** | React.js (Vite), React Router DOM v6, Axios, Lucide Icons, Plain CSS |
+| **Frontend** | React 18 (Vite), React Router DOM v6, Axios, Lucide React Icons, Pure Vanilla CSS |
 | **Backend** | Node.js, Express.js |
-| **Database** | PostgreSQL 17 |
+| **Database** | PostgreSQL |
 | **ORM** | Prisma ORM v5 |
 | **Authentication** | JSON Web Tokens (`jsonwebtoken`), Password Hashing (`bcryptjs`) |
 | **Validation** | Zod Schema Validation |
+| **Deployment** | Vercel (Frontend), Render (Backend & PostgreSQL) |
 
 ---
 
-## 📂 Project Architecture
+## 📂 Project Structure
 
 ```
 Internship Assignment/
 ├── backend/
 │   ├── src/
-│   │   ├── config/          # Database client configuration
+│   │   ├── config/          # Database client configuration (Prisma)
 │   │   ├── controllers/     # Express HTTP request & response handlers
 │   │   ├── middlewares/     # JWT auth, RBAC, Zod validation, error handling
-│   │   ├── routes/          # Route definitions (/api/auth, /api/admin, etc.)
-│   │   ├── services/        # Core business logic & database queries
+│   │   ├── routes/          # API route definitions (/auth, /admin, /stores, etc.)
+│   │   ├── services/        # Business logic & database queries
 │   │   ├── validators/      # Zod validation schemas
-│   │   ├── utils/           # JWT helpers & response formatters
+│   │   ├── utils/           # Response helpers & token signers
 │   │   ├── app.js           # Express application setup
 │   │   └── server.js        # Server listener entry point
 │   ├── prisma/
-│   │   ├── schema.prisma    # PostgreSQL database models & enums
+│   │   ├── schema.prisma    # PostgreSQL database schema & models
 │   │   └── seed.js          # Database seed script for test accounts
 │   ├── .env.example         # Template for environment configuration
 │   └── package.json
 ├── frontend/
 │   ├── src/
-│   │   ├── api/             # Axios instance with JWT interceptors
+│   │   ├── api/             # Axios instance configured with live Render baseUrl
 │   │   ├── components/      # Navbar, Sidebar, SortableTable, StarDisplay, RatingInput, Modal, Loader, AlertMessage
-│   │   ├── context/         # AuthContext for session management & role routing
-│   │   ├── layouts/         # Main Dashboard Layout
-│   │   ├── pages/           # Login, Register, Admin, User & Store Owner pages
-│   │   ├── App.jsx          # React Router setup with role guards
-│   │   ├── index.css        # Global CSS design system (dark theme)
+│   │   ├── context/         # AuthContext (session & RBAC) & ThemeContext (Light/Dark)
+│   │   ├── layouts/         # Dashboard Shell Layout with responsive sidebar
+│   │   ├── pages/           # LandingPage, Login, Register, Admin, User & Store Owner views
+│   │   ├── App.jsx          # React Router setup with role guards & ThemeProvider
+│   │   ├── index.css        # Global CSS design system (Dark & Light tokens)
 │   │   └── main.jsx
+│   ├── .env.production      # Production environment configuration
 │   └── package.json
+├── render.yaml              # Render blueprint deployment configuration
 ├── screenshots/             # Application UI screenshots
 └── README.md
 ```
@@ -135,113 +109,170 @@ Internship Assignment/
 
 ## 🗄️ Database Schema
 
-The PostgreSQL database contains 3 core models:
+The PostgreSQL database contains 3 core models managed via Prisma ORM:
 
-**`User`** — `id` (UUID), `name` (20–60 chars), `email` (unique), `passwordHash`, `address` (max 400 chars), `role` (enum: `SYSTEM_ADMIN | NORMAL_USER | STORE_OWNER`)
+```prisma
+model User {
+  id           String   @id @default(uuid())
+  name         String   // 20–60 characters
+  email        String   @unique
+  passwordHash String
+  address      String   // Max 400 characters
+  role         Role     @default(NORMAL_USER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-**`Store`** — `id` (UUID), `name`, `email`, `address`, `ownerId` (unique FK to User — 1-to-1 relation)
+  ownedStore   Store?   @relation("StoreOwner")
+  ratings      Rating[]
+}
 
-**`Rating`** — `id` (UUID), `rating` (int 1–5), `userId` (FK), `storeId` (FK), `@@unique([userId, storeId])` — one rating per user per store enforced at DB level
+model Store {
+  id        String   @id @default(uuid())
+  name      String   // 20–60 characters
+  email     String
+  address   String   // Max 400 characters
+  ownerId   String   @unique
+  owner     User     @relation("StoreOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ratings   Rating[]
+}
+
+model Rating {
+  id        String   @id @default(uuid())
+  rating    Int      // 1 to 5 integer
+  feedback  String?  // Optional customer review comment
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  storeId   String
+  store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, storeId]) // Enforces single rating per store per customer
+}
+```
 
 ---
 
 ## 🔑 Test Credentials
 
-### System Administrator
-| Field | Value |
-|---|---|
-| Email | `admin@storerating.com` |
-| Password | `AdminPassword123!` |
-| Access | `/admin/dashboard` |
+You can use these pre-seeded demo accounts to test each user role:
 
-### Store Owners
-| Email | Password | Store |
+### 1. System Administrator
+| Role | Email | Password | Dashboard URL |
+|---|---|---|---|
+| **Administrator (⚡)** | `admin@storerating.com` | `AdminPass123!` | `/admin/dashboard` |
+
+### 2. Store Owners
+| Role | Email | Password | Assigned Store |
+|---|---|---|---|
+| **Store Owner (🏪)** | `owner.david@storerating.com` | `OwnerPass123!` | Tech Gadgets Central Store |
+| **Store Owner (🏪)** | `owner.emma@storerating.com` | `OwnerPass123!` | Gourmet Bakery Delight Store |
+| **Store Owner (🏪)** | `owner.frank@storerating.com` | `OwnerPass123!` | Urban Fashion Apparel Hub |
+
+### 3. Normal Users (Customers)
+| Role | Email | Password |
 |---|---|---|
-| `owner.david@storerating.com` | `OwnerPassword123!` | Tech Gadgets Central Store |
-| `owner.emma@storerating.com` | `OwnerPassword123!` | Gourmet Bakery Delight Store |
-| `owner.frank@storerating.com` | `OwnerPassword123!` | Urban Fashion Apparel Hub |
+| **Normal User (👤)** | `alice@example.com` | `UserPass123!` |
+| **Normal User (👤)** | `bob@example.com` | `UserPass123!` |
+| **Normal User (👤)** | `charlie@example.com` | `UserPass123!` |
 
-### Normal Users
-| Email | Password |
-|---|---|
-| `alice@example.com` | `UserPassword123!` |
-| `bob@example.com` | `UserPassword123!` |
-| `charlie@example.com` | `UserPassword123!` |
+> *Tip: You can also click **"Register Free"** to create a new customer account anytime.*
 
 ---
 
-## 🚀 Setup & Running Instructions
+## 🚀 Local Development Setup
 
 ### Prerequisites
 - Node.js (v18+)
-- PostgreSQL (v14+) running on `localhost:5432`
+- PostgreSQL (v14+) running locally
 
-### Step 1 — Backend Setup
+### 1. Backend Setup
 
 ```bash
+# Navigate to backend directory
 cd backend
+
+# Install dependencies
 npm install
+
+# Create .env file
+cp .env.example .env
 ```
 
-Create `backend/.env` (copy from `.env.example`):
+Configure `backend/.env`:
 ```env
-DATABASE_URL="postgresql://postgres@127.0.0.1:5432/storeratingdb"
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/storeratingdb"
 PORT=5000
-JWT_SECRET="your_secret_key_here"
+JWT_SECRET="super_secret_jwt_key_store_rating_2026"
 JWT_EXPIRES_IN="24h"
 ```
 
 ```bash
-npx prisma db push      # Push schema to PostgreSQL
-npm run seed            # Seed test accounts & stores
-npm run dev             # Start backend on http://localhost:5000
-```
+# Push schema to database
+npx prisma db push
 
-### Step 2 — Frontend Setup
+# Seed test accounts & stores
+node prisma/seed.js
+
+# Start backend development server
+npm run dev
+```
+Backend runs at `http://localhost:5000`.
+
+---
+
+### 2. Frontend Setup
 
 ```bash
+# Navigate to frontend directory
 cd frontend
+
+# Install dependencies
 npm install
-npm run dev             # Start frontend on http://localhost:5173
+
+# Start Vite development server
+npm run dev
 ```
+Frontend runs at `http://localhost:5173`.
 
 ---
 
-## 🌐 API Endpoint Overview
+## 🌐 API Endpoint Reference
 
 ### Authentication (`/api/auth`)
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/auth/register` | Register a Normal User |
-| POST | `/api/auth/login` | Login (returns JWT token) |
-| PUT | `/api/auth/change-password` | Change password (authenticated) |
-| GET | `/api/auth/me` | Get current user profile |
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `POST` | `/api/auth/register` | Public | Register a new Normal User account |
+| `POST` | `/api/auth/login` | Public | Sign in with email & password (returns JWT) |
+| `PUT` | `/api/auth/change-password` | Authenticated | Update user password |
+| `GET` | `/api/auth/me` | Authenticated | Get current authenticated user profile |
 
-### System Admin (`/api/admin`) — Requires `SYSTEM_ADMIN` role
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/admin/dashboard` | Platform statistics |
-| POST | `/api/admin/users` | Create user (any role) |
-| GET | `/api/admin/users` | List users with filters & sorting |
-| GET | `/api/admin/users/:id` | User detail view |
-| POST | `/api/admin/stores` | Create store with owner assignment |
-| GET | `/api/admin/stores` | List stores with filters & sorting |
+### System Administration (`/api/admin`)
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `GET` | `/api/admin/dashboard` | `SYSTEM_ADMIN` | Summary counts (`totalUsers`, `totalStores`, `totalRatings`) |
+| `POST` | `/api/admin/users` | `SYSTEM_ADMIN` | Create user with any role (`ADMIN`, `OWNER`, `USER`) |
+| `GET` | `/api/admin/users` | `SYSTEM_ADMIN` | Filterable & sortable list of all registered users |
+| `GET` | `/api/admin/users/:id` | `SYSTEM_ADMIN` | Detailed profile of a specific user |
+| `POST` | `/api/admin/stores` | `SYSTEM_ADMIN` | Create store and assign dedicated Store Owner |
+| `GET` | `/api/admin/stores` | `SYSTEM_ADMIN` | Filterable & sortable list of all stores |
 
-### Stores & Ratings
-| Method | Endpoint | Access |
-|---|---|---|
-| GET | `/api/stores` | Authenticated — search & list stores |
-| POST | `/api/stores/:id/ratings` | NORMAL_USER — submit rating |
-| PUT | `/api/stores/:id/ratings` | NORMAL_USER — update rating |
-| GET | `/api/store-owner/dashboard` | STORE_OWNER — performance dashboard |
-| GET | `/api/store-owner/ratings` | STORE_OWNER — customer review table |
+### Stores & Ratings (`/api/stores`, `/api/store-owner`)
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `GET` | `/api/stores` | Authenticated | List all stores with search, sort & user ratings |
+| `GET` | `/api/stores/:id` | Authenticated | Get single store details and average rating |
+| `POST` | `/api/stores/:id/ratings` | `NORMAL_USER` | Submit 1–5 star rating with optional feedback |
+| `PUT` | `/api/stores/:id/ratings` | `NORMAL_USER` | Modify existing rating and feedback comment |
+| `GET` | `/api/store-owner/dashboard` | `STORE_OWNER` | Store metrics, average score & recent review quotes |
+| `GET` | `/api/store-owner/ratings` | `STORE_OWNER` | Full sortable table of all store customer ratings & reviews |
+| `GET` | `/api/seed` | Public | 1-Click database seeder endpoint |
 
 ---
 
-## 📝 Key Design Decisions
+## 📄 License & Attribution
 
-1. **Self-Registration**: Only Normal Users can self-register. Store Owners and Admins are created by the System Administrator.
-2. **Single Store per Owner**: One-to-one unique FK constraint on `Store.ownerId`.
-3. **Rating Integrity**: DB-level `@@unique([userId, storeId])` ensures no duplicate ratings even under concurrent requests.
-4. **Dynamic Averages**: Ratings are aggregated on query via Prisma `_avg` — never stale.
-5. **Dual-Layer Security**: Backend `authorizeRoles()` middleware + frontend `RoleProtectedRoute` component — unauthorized URL access is blocked at both layers.
+© 2026 StoreRatingHub. Built with React, Node.js, Express, Prisma ORM, and PostgreSQL.
