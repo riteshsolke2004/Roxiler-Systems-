@@ -7,18 +7,13 @@ import {
   Star,
   ShieldCheck,
   TrendingUp,
-  Users,
-  Search,
   ArrowRight,
   Sparkles,
   CheckCircle2,
   Lock,
-  Layers,
   BarChart3,
   Sun,
-  Moon,
-  Heart,
-  ChevronRight
+  Moon
 } from 'lucide-react';
 
 const LandingPage = () => {
@@ -77,9 +72,6 @@ const LandingPage = () => {
         </Link>
 
         <nav style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <a href="#features" style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-            Features
-          </a>
           <a href="#why-us" style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
             Why Us
           </a>
@@ -340,86 +332,11 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* 4. Features Section */}
-      <section id="features" style={{ padding: '5rem 2rem' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-            <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-              Platform Capabilities
-            </span>
-            <h2
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '2.25rem',
-                fontWeight: 700,
-                color: 'var(--text-primary)',
-                marginTop: '0.5rem',
-                letterSpacing: '-0.02em',
-              }}
-            >
-              Everything You Need in One Place
-            </h2>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
-            {[
-              {
-                icon: <Search size={22} color="var(--primary)" />,
-                title: 'Smart Search & Sorting',
-                desc: 'Instantly find stores by business name or address with multi-column ascending/descending sorts.',
-              },
-              {
-                icon: <ShieldCheck size={22} color="var(--accent)" />,
-                title: 'Input Data Validation',
-                desc: 'Strict Zod & Regex schemas verifying name length, email format, and password complexity.',
-              },
-              {
-                icon: <Sun size={22} color="var(--gold)" />,
-                title: 'Dark & Light Theme Mode',
-                desc: 'Seamlessly toggle between a sleek dark palette and a crisp light layout based on user preference.',
-              },
-              {
-                icon: <Layers size={22} color="var(--pink)" />,
-                title: 'Modern Responsive Layout',
-                desc: 'Designed with Plus Jakarta Sans typography, fluid grid systems, and mobile-friendly touch targets.',
-              },
-            ].map((f, i) => (
-              <div key={i} className="card" style={{ padding: '1.75rem 1.5rem' }}>
-                <div
-                  style={{
-                    width: '44px',
-                    height: '44px',
-                    borderRadius: '10px',
-                    background: 'var(--bg-elevated)',
-                    border: '1px solid var(--border)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1rem',
-                  }}
-                >
-                  {f.icon}
-                </div>
-                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.4rem' }}>
-                  {f.title}
-                </h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.5 }}>
-                  {f.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Roles & Access Hierarchy */}
+      {/* 4. Roles & Access Hierarchy */}
       <section
         id="roles"
         style={{
           padding: '5rem 2rem',
-          background: 'var(--bg-card-hover)',
-          borderTop: '1px solid var(--border)',
-          borderBottom: '1px solid var(--border)',
         }}
       >
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
@@ -517,52 +434,73 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* 6. Call to Action Banner */}
-      <section style={{ padding: '5rem 2rem', textAlign: 'center' }}>
+      {/* 5. Clean, Harmonious Call to Action Banner (Theme-Adaptive) */}
+      <section style={{ padding: '3.5rem 2rem 4.5rem', textAlign: 'center' }}>
         <div
           style={{
-            maxWidth: '900px',
+            maxWidth: '850px',
             margin: '0 auto',
-            background: 'var(--grad-primary)',
-            borderRadius: 'var(--radius-2xl)',
-            padding: '3.5rem 2rem',
-            color: '#ffffff',
-            boxShadow: '0 20px 50px var(--primary-glow)',
+            background: 'var(--bg-elevated)',
+            border: '1.5px solid var(--border-strong)',
+            borderRadius: 'var(--radius-xl)',
+            padding: '3rem 2rem',
+            boxShadow: 'var(--shadow-lg)',
+            position: 'relative',
+            overflow: 'hidden',
           }}
         >
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.25rem', fontWeight: 800, marginBottom: '1rem', color: '#fff' }}>
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '3px',
+              background: 'var(--grad-primary)',
+            }}
+          />
+          <h2
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '2rem',
+              fontWeight: 800,
+              marginBottom: '0.75rem',
+              color: 'var(--text-primary)',
+              letterSpacing: '-0.02em',
+            }}
+          >
             Ready to Rate Your Favorite Stores?
           </h2>
-          <p style={{ fontSize: '1rem', opacity: 0.9, maxWidth: '550px', margin: '0 auto 2rem' }}>
-            Join our community today or sign in to manage your store reviews and ratings.
+          <p
+            style={{
+              fontSize: '0.975rem',
+              color: 'var(--text-muted)',
+              maxWidth: '520px',
+              margin: '0 auto 1.75rem',
+              lineHeight: 1.6,
+            }}
+          >
+            Join our transparent community today or sign in to manage your store reviews and ratings.
           </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-            <Link
-              to="/register"
-              className="btn btn-accent btn-lg"
-              style={{ backgroundColor: '#ffffff', color: 'hsl(252, 87%, 55%)' }}
-            >
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
+            <Link to="/register" className="btn btn-primary btn-lg" style={{ gap: '0.5rem' }}>
               <span>Create Free Account</span>
-              <ArrowRight size={18} />
+              <ArrowRight size={17} />
             </Link>
-            <Link
-              to="/login"
-              className="btn btn-outline btn-lg"
-              style={{ borderColor: 'rgba(255,255,255,0.6)', color: '#ffffff' }}
-            >
+            <Link to="/login" className="btn btn-secondary btn-lg">
               <span>Sign In</span>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 7. Footer */}
+      {/* 6. Footer */}
       <footer
         style={{
           marginTop: 'auto',
-          background: 'var(--bg-elevated)',
+          background: 'var(--bg-card-hover)',
           borderTop: '1px solid var(--border)',
-          padding: '2.5rem 2rem 1.5rem',
+          padding: '2.25rem 2rem 1.5rem',
         }}
       >
         <div
@@ -595,22 +533,22 @@ const LandingPage = () => {
             </span>
           </div>
 
-          <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+          <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.85rem' }}>
             <Link to="/login" style={{ color: 'var(--text-muted)' }}>
               Sign In
             </Link>
             <Link to="/register" style={{ color: 'var(--text-muted)' }}>
               Register
             </Link>
-            <a href="#features" style={{ color: 'var(--text-muted)' }}>
-              Features
-            </a>
             <a href="#why-us" style={{ color: 'var(--text-muted)' }}>
               Why Us
             </a>
+            <a href="#roles" style={{ color: 'var(--text-muted)' }}>
+              Roles & Access
+            </a>
           </div>
 
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', width: '100%', textAlign: 'center', marginTop: '1.5rem', borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', width: '100%', textAlign: 'center', marginTop: '1.25rem', borderTop: '1px solid var(--border)', paddingTop: '1.25rem' }}>
             © {new Date().getFullYear()} StoreRatingHub. Full-Stack Internship Assignment. Built with React, Node.js, Express & PostgreSQL.
           </p>
         </div>
