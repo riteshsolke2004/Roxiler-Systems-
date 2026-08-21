@@ -549,7 +549,7 @@ const LandingPage = () => {
           </div>
 
           <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', width: '100%', textAlign: 'center', marginTop: '1.25rem', borderTop: '1px solid var(--border)', paddingTop: '1.25rem' }}>
-            © {new Date().getFullYear()} StoreRatingHub. Full-Stack Internship Assignment. Built with React, Node.js, Express & PostgreSQL.
+            © {new Date().getFullYear()} StoreRatingHub.
           </p>
         </div>
       </footer>
