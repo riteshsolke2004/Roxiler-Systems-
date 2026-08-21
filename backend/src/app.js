@@ -7,7 +7,8 @@ const storeRoutes = require('./routes/storeRoutes');
 const ratingRoutes = require('./routes/ratingRoutes');
 const storeOwnerRoutes = require('./routes/storeOwnerRoutes');
 const errorHandler = require('./middlewares/errorMiddleware');
-const { sendError } = require('./utils/response');
+const { sendError, sendSuccess } = require('./utils/response');
+const { seedDatabase } = require('../prisma/seed');
 
 const app = express();
 
@@ -20,6 +21,16 @@ app.use(express.urlencoded({ extended: true }));
 // Health Check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'UP', message: 'Store Rating Platform Backend API running' });
+});
+
+// Database Seeding Endpoint (Convenient for free-tier Render deployments)
+app.get('/api/seed', async (req, res, next) => {
+  try {
+    const result = await seedDatabase();
+    return sendSuccess(res, 200, 'Database seeded successfully with default Admin, Store Owners, Stores, and Ratings!', result);
+  } catch (error) {
+    return next(error);
+  }
 });
 
 // API Routes

@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 const prisma = new PrismaClient();
 
-async function main() {
+async function seedDatabase() {
   console.log('Seeding database...');
 
   // Clean existing tables
@@ -128,13 +128,22 @@ async function main() {
   });
 
   console.log('Database seeded successfully!');
+  return {
+    admin: admin.email,
+    stores: 3,
+    ratings: 5,
+  };
 }
 
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+if (require.main === module) {
+  seedDatabase()
+    .catch((e) => {
+      console.error(e);
+      process.exit(1);
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}
+
+module.exports = { seedDatabase };
